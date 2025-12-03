@@ -1,4 +1,5 @@
 import time
+import sys
 from src.logica import TARIFA_PARADO, TARIFA_MOVIMIENTO, calcular_coste_tramo
 
 def mostrar_bienvenida():
@@ -115,7 +116,17 @@ def iniciar_trayecto():
 
 def main():
     mostrar_bienvenida()
-    iniciar_trayecto()
+    
+    while True:
+        respuesta = input("¿Iniciar nuevo trayecto? (s/n): ").strip().lower()
+        
+        if respuesta == 's':
+            iniciar_trayecto()
+        elif respuesta == 'n':
+            print("👋 ¡Gracias por usar el servicio!")
+            sys.exit()
+        else:
+            print("Por favor, usa 's' o 'n'.")
 
 if __name__ == "__main__":
     main()
