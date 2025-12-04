@@ -1,5 +1,6 @@
 import time
 import sys
+import logging
 from src.logica import calcular_coste_tramo
 from src.configuracion import cargar_configuracion
 
@@ -8,6 +9,14 @@ CONFIG = cargar_configuracion()
 T_PARADO = CONFIG['tarifa_parado']
 T_MOVIMIENTO = CONFIG['tarifa_movimiento']
 MONEDA = CONFIG['moneda']
+
+## Configuración de los LOGS 
+logging.basicConfig(
+    filename='taximetro.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
 
 def mostrar_bienvenida():
     print("\n" + "┌" + "─"*40 + "┐")
@@ -42,6 +51,7 @@ def imprimir_factura_final(t_parado, t_mov, c_parado, c_mov):
     print("="*42 + "\n")
 
 def iniciar_trayecto():
+    logging.info("Iniciando nuevo trayecto")
     # Acumuladores
     t_parado_total = 0.0
     t_mov_total = 0.0
@@ -71,7 +81,7 @@ def iniciar_trayecto():
                 print("❌ Opción inválida. El taxi ya se mueve.")
             else:
                 # Calcular tramo PARADO
-                coste, tiempo, ahora = calcular_coste_tramo(tiempo_ultimo_cambio, estado_actual)
+                coste, tiempo, ahora = calcular_coste_tramo(tiempo_ultimo_cambio, estado_actual, T_PARADO, T_MOVIMIENTO)
                 
                 # Actualizar acumuladores
                 c_parado_total += coste
@@ -90,7 +100,7 @@ def iniciar_trayecto():
                  print("❌ Opción inválida. El taxi ya está parado.")
             else:
                 # Calcular tramo MOVIMIENTO
-                coste, tiempo, ahora = calcular_coste_tramo(tiempo_ultimo_cambio, estado_actual)
+                coste, tiempo, ahora = calcular_coste_tramo(tiempo_ultimo_cambio, estado_actual, T_PARADO, T_MOVIMIENTO)
                 
                 # Actualizar acumuladores
                 c_mov_total += coste
@@ -106,7 +116,7 @@ def iniciar_trayecto():
 
         elif comando == 'f':
             # Calcular último tramo pendiente
-            coste, tiempo, ahora = calcular_coste_tramo(tiempo_ultimo_cambio, estado_actual)
+            coste, tiempo, ahora = calcular_coste_tramo(tiempo_ultimo_cambio, estado_actual, T_PARADO, T_MOVIMIENTO)
             
             if estado_actual == "movimiento":
                 c_mov_total += coste
