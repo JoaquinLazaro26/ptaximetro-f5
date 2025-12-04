@@ -82,4 +82,3 @@ python -m pytest
 
 ---
 *Desarrollado con ❤️ y Python.*
-```
