@@ -1,5 +1,5 @@
 {
-    "tarifa_parado": 0.02,
-    "tarifa_movimiento": 0.05,
+    "tarifa_parado": 0.04,
+    "tarifa_movimiento": 0.1,
     "moneda": "€"
 }
