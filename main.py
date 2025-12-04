@@ -1,6 +1,7 @@
 import time
 import sys
 import logging
+from src.gestor_historial import guardar_trayecto
 from src.logica import calcular_coste_tramo
 from src.configuracion import cargar_configuracion, guardar_configuracion
 
@@ -122,7 +123,12 @@ def iniciar_trayecto():
                 t_parado_total += tiempo
             
             total_final = c_parado_total + c_mov_total
-            
+            tiempo_total = t_parado_total + t_mov_total
+
+            if guardar_trayecto(tiempo_total, total_final, MONEDA):
+                logging.info("Historial guardado correctamente en history.txt")
+            else:
+                logging.error("No se pudo guardar el historial")
             # Log de Fin exitoso
             logging.info(f"TRAYECTO FINALIZADO. Total: {total_final:.2f}{MONEDA}. Duración: {(t_parado_total + t_mov_total):.2f}s")
             
