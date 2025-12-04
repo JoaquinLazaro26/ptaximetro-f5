@@ -1,5 +1,6 @@
 import sys
 import logging
+from src.gestor_historial import GestorHistorial
 from src.configuracion import GestorConfiguracion
 from src.modelo import Taximetro, Estado, Trayecto
 from src.utils import leer_float_seguro
@@ -14,7 +15,8 @@ logging.basicConfig(
 
 # Inyección de dependencias simple
 gestor_conf = GestorConfiguracion()
-taxi = Taximetro(gestor_conf)
+gestor_hist = GestorHistorial() 
+taxi = Taximetro(gestor_conf, gestor_hist)
 
 def mostrar_encabezado() -> None:
     """Imprime la cabecera visual de la aplicación."""

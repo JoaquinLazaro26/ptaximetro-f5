@@ -1,6 +1,5 @@
 import time
 from enum import Enum
-from src.gestor_historial import guardar_trayecto
 
 class Estado(Enum):
     PARADO = "parado"
@@ -66,8 +65,14 @@ class Trayecto:
 class Taximetro:
     """Controlador principal de la aplicación (Fachada)."""
     
-    def __init__(self, gestor_config):
+    def __init__(self, gestor_config, gestor_historial):
+        """
+        Args:
+            gestor_config: Instancia de GestorConfiguracion.
+            gestor_historial: Instancia de GestorHistorial.
+        """
         self.config = gestor_config
+        self.historial = gestor_historial  # Inyección de dependencia
         self.trayecto_actual = None
 
     def iniciar_carrera(self):
@@ -77,27 +82,25 @@ class Taximetro:
         return self.trayecto_actual
 
     def cambiar_estado(self, nuevo_estado_str):
-        """Wrapper para manejar strings desde la UI/CLI."""
         if not self.trayecto_actual:
             raise RuntimeError("No hay carrera en curso")
             
-        estado_enum = Estado(nuevo_estado_str) # Convierte string a Enum
+        estado_enum = Estado(nuevo_estado_str)
         return self.trayecto_actual.cambiar_estado(estado_enum)
 
     def finalizar_carrera(self):
         if not self.trayecto_actual:
             return None
         
-        # Finalizar lógica
-        coste_ultimo, tiempo_ultimo = self.trayecto_actual.finalizar()
+        # 1. Finalizar lógica de tiempo/coste
+        self.trayecto_actual.finalizar()
         
-        # Guardar en historial
-        guardar_trayecto(
-            self.trayecto_actual.total_tiempo,
-            self.trayecto_actual.total_coste,
+        # 2. Guardar usando el gestor inyectado, pasando el OBJETO completo
+        self.historial.guardar(
+            self.trayecto_actual, 
             self.config.moneda
         )
         
-        resumen = self.trayecto_actual # Guardamos referencia para devolverla
-        self.trayecto_actual = None # Reseteamos
+        resumen = self.trayecto_actual
+        self.trayecto_actual = None
         return resumen
