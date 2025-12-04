@@ -1,84 +1,71 @@
-# 🚕 Proyecto Taxímetro (CLI)
+# 🚖 Proyecto Taxímetro
 
-> Sistema de gestión de tarifas de taxi en tiempo real desarrollado en Python.
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![Tkinter](https://img.shields.io/badge/GUI-Tkinter-yellow)
+![Status](https://img.shields.io/badge/Status-Completed-success)
 
-Este proyecto simula el funcionamiento profesional de un taxímetro digital. Permite iniciar trayectos, calcular costes en tiempo real según el estado (parado/movimiento), gestionar configuraciones y mantener un registro histórico y de auditoría.
+Aplicación de escritorio desarrollada en Python que simula el funcionamiento lógico y contable de un taxímetro digital incremental. Evolucionado desde un script básico hasta una aplicación completa con Arquitectura MVC, Persistencia y GUI profesional.
 
-## 🚀 Funcionalidades
+## ✨ Características Principales
 
-### 🟢 Nivel Esencial (Core)
-*   **Interfaz CLI Interactiva:** Menú dinámico y fácil de usar.
-*   **Cálculo en Tiempo Real:** Algoritmo preciso para calcular tarifas según el tiempo transcurrido.
-*   **Facturación:** Generación de factura detallada al finalizar el trayecto.
-
-### 🟡 Nivel Medio (Robustez & Configuración)
-*   **⚙️ Sistema de Configuración:** Precios y moneda configurables desde el propio programa (persistencia en `config.json`).
-*   **📝 Logging de Auditoría:** Registro automático de eventos, errores y cambios de estado en `taximetro.log`.
-*   **💾 Historial de Viajes:** Almacenamiento permanente de los trayectos finalizados en `history.txt`.
-*   **🧪 Test Unitarios:** Batería de pruebas automatizadas con `pytest` para asegurar la precisión matemática y manejo de errores.
-
-## 🛠️ Requisitos e Instalación
-
-1.  **Clonar el repositorio:**
-    ```bash
-    git clone https://github.com/TU_USUARIO/Proyecto-Taximetro.git
-    cd Proyecto-Taximetro
-    ```
-
-2.  **Configurar entorno virtual (Recomendado):**
-    ```bash
-    python -m venv venv
-    # Windows
-    venv\Scripts\activate
-    # Mac/Linux
-    source venv/bin/activate
-    ```
-
-3.  **Instalar dependencias:**
-    Ahora es necesario instalar las librerías de testing.
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-4.  **Ejecutar la aplicación:**
-    ```bash
-    python main.py
-    ```
-
-## 🧪 Cómo ejecutar los Tests
-
-El proyecto incluye tests unitarios para validar la lógica de negocio y casos borde (edge cases).
-
-```bash
-python -m pytest
-```
-*Deberías ver una salida en verde confirmando que todos los tests han pasado.*
+- **Arquitectura MVC:** Separación estricta entre Lógica (`modelo`), Interfaz (`gui`) y Control.
+- **Interfaz Gráfica (GUI):** Desarrollada con `tkinter`, incluye:
+  - Diseño moderno y responsivo.
+  - Actualización en tiempo real sin bloqueo (Event Loop).
+  - Panel de Login con autenticación segura (Hash + Salt).
+- **Lógica de Negocio Incremental:**
+  - Tarifas dinámicas: "Parado" vs "En Movimiento".
+  - Cálculo preciso de costes y tiempos.
+- **Persistencia de Datos:**
+  - `users.json`: Base de datos de usuarios encriptada.
+  - `config.json`: Configuración persistente de tarifas.
+  - `history.txt`: Registro de auditoría inmutable de carreras.
+- **Logging Profesional:** Trazabilidad completa de acciones de usuario y errores del sistema.
 
 ## 📂 Estructura del Proyecto
 
 ```text
-.
-├── config.json         # Archivo de configuración persistente
-├── history.txt         # Registro histórico de viajes (se genera al usar)
-├── taximetro.log       # Log de eventos del sistema (se genera al usar)
-├── main.py             # Punto de entrada principal
-├── requirements.txt    # Dependencias del proyecto
-├── src/
-│   ├── __init__.py
-│   ├── logica.py       # Motor de cálculo (Puro)
-│   ├── configuracion.py# Gestor de lectura/escritura de config JSON
-│   └── gestor_historial.py # Módulo de persistencia en texto
-└── tests/
-    ├── __init__.py
-    └── test_logica.py  # Tests unitarios con Pytest
+ptaximetro/
+├── main.py                 # Punto de entrada (Orquestador & DI)
+├── config.json             # Configuración (Autogenerado)
+├── users.json              # Usuarios (Autogenerado)
+├── history.txt             # Historial de carreras
+├── taximetro.log           # Logs técnicos
+└── src/
+    ├── modelo.py           # Lógica de Negocio (Core)
+    ├── gui.py              # Interfaz Gráfica (Vista)
+    ├── autenticacion.py    # Gestión de Seguridad
+    ├── configuracion.py    # Gestión de Configuración
+    ├── gestor_historial.py # Gestión de Logs de Negocio
+    ├── estilos.py          # Definición de Tema/UI
+    └── constantes.py       # Constantes Globales
 ```
 
-## 🔮 Roadmap
+## 🚀 Instalación y Uso
 
-*   ✅ **Nivel Esencial:** CLI Básica y Lógica de Negocio.
-*   ✅ **Nivel Medio:** Persistencia, Logs, Configuración y Tests.
-*   🟠 **Nivel Avanzado:** Refactor a OOP (Clases), Autenticación y GUI.
-*   🔴 **Nivel Experto:** Docker, Base de Datos y Web API.
+1. **Requisitos:** Python 3.x instalado. No requiere librerías externas (solo librería estándar).
 
----
-*Desarrollado con ❤️ y Python.*
+2. **Clonar el repositorio:**
+   ```bash
+   git clone https://github.com/tu-usuario/proyecto-taximetro.git
+   cd proyecto-taximetro
+   ```
+
+3. **Ejecutar la aplicación:**
+   *Es importante ejecutar desde la raíz del proyecto:*
+   ```bash
+   python main.py
+   ```
+
+4. **Credenciales por defecto:**
+   Al iniciar, si no existe base de datos, puedes editar `users.json` o usar el usuario semilla si se configuró.
+
+## ⚙️ Configuración
+
+Las tarifas se pueden modificar desde la propia interfaz gráfica (botón ⚙️ en el Dashboard) o editando manualmente el archivo `config.json` (respetando el formato JSON).
+
+> **Nota:** La configuración está bloqueada mientras haya una carrera en curso por seguridad.
+
+## 👨‍💻 Autor
+
+Joaquin Alonso Lazaro Marquez
