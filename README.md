@@ -47,8 +47,8 @@ ptaximetro/
 
 2. **Clonar el repositorio:**
    ```bash
-   git clone https://github.com/tu-usuario/proyecto-taximetro.git
-   cd proyecto-taximetro
+   git clone https://github.com/Bootcamp-IA-P6/Proyecto1_Joaquin_Lazaro.git
+   cd Proyecto1_Joaquin_Lazaro
    ```
 
 3. **Ejecutar la aplicación:**
