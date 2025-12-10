@@ -27,6 +27,9 @@ class TaximetroCore:
         self.tarifa_parado = 0.0
         self.tarifa_movimiento = 0.0
 
+        # Moneda
+        self.moneda: str = "€"
+
     def iniciar_carrera(self, t_parado: float, t_mov: float):
         if self.estado != Estado.LIBRE:
             raise ValueError("Carrera ya en curso")
@@ -88,7 +91,6 @@ class TaximetroCore:
         if self.estado == Estado.LIBRE:
             raise ValueError("No hay carrera activa")
 
-        # Sumar el último tramo
         coste, tiempo, _ = self._calcular_tramo_pendiente()
         
         if self.estado == Estado.PARADO:
@@ -98,6 +100,8 @@ class TaximetroCore:
             self.tiempo_movimiento += tiempo
             self.coste_movimiento += coste
 
+        from datetime import datetime 
+        
         ticket = TicketFinal(
             total_tiempo=int(self.tiempo_parado + self.tiempo_movimiento),
             total_coste=round(self.coste_parado + self.coste_movimiento, 2),
@@ -105,7 +109,9 @@ class TaximetroCore:
             tiempo_parado=int(self.tiempo_parado),
             coste_movimiento=round(self.coste_movimiento, 2),
             coste_parado=round(self.coste_parado, 2),
-            timestamp=time.strftime("%Y-%m-%d %H:%M:%S")
+            tarifa_parado_aplicada=self.tarifa_parado,
+            tarifa_movimiento_aplicada=self.tarifa_movimiento,
+            timestamp=datetime.now()
         )
 
         self.estado = Estado.LIBRE
@@ -123,6 +129,10 @@ class TaximetroCore:
             "tiempo": int(t_total),
             "importe": round(c_total, 2)
         }
+    
+    def actualizar_configuracion_interna(self, moneda: str):
+        """Actualiza la caché de configuración en memoria caliente."""
+        self.moneda = moneda
 
 # Instancia Global (Singleton)
 taxi_instance = TaximetroCore()
