@@ -1,0 +1,23 @@
+services:
+  # --- SERVICIO BACKEND (API) ---
+  api:
+    build: ./backend
+    container_name: taximetro-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    env_file:
+      - ./backend/.env
+    restart: always
+
+  # --- SERVICIO FRONTEND (Web) ---
+  web:
+    build: ./frontend
+    container_name: taximetro-frontend
+    ports:
+      - "8080:80"  # Entras por http://localhost:8080
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    depends_on:
+      - api

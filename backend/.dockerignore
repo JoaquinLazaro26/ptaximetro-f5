@@ -1,0 +1,17 @@
+# --- Seguridad (Archivos que NO entran en la imagen) ---
+.env
+firebase_credentials.json
+.git
+.gitignore
+
+# --- Basura de Python ---
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# --- Otros ---
+Dockerfile
+*.log
