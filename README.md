@@ -1,71 +1,113 @@
-# 🚖 Proyecto Taxímetro
+# 🚖 Taxímetro Expert v4.0
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
-![Tkinter](https://img.shields.io/badge/GUI-Tkinter-yellow)
-![Status](https://img.shields.io/badge/Status-Completed-success)
+> Plataforma de gestión inteligente de tarifas de taxi basada en **Microservicios**, **Docker** y **Firebase**.
 
-Aplicación de escritorio desarrollada en Python que simula el funcionamiento lógico y contable de un taxímetro digital incremental. Evolucionado desde un script básico hasta una aplicación completa con Arquitectura MVC, Persistencia y GUI profesional.
+![Status](https://img.shields.io/badge/Status-Stable-success)
+![Docker](https://img.shields.io/badge/Docker-Enabled-blue)
+![Backend](https://img.shields.io/badge/Backend-FastAPI-009688)
+![Frontend](https://img.shields.io/badge/Frontend-Bootstrap%205-purple)
 
-## ✨ Características Principales
+## 📖 ¿De qué trata el proyecto?
 
-- **Arquitectura MVC:** Separación estricta entre Lógica (`modelo`), Interfaz (`gui`) y Control.
-- **Interfaz Gráfica (GUI):** Desarrollada con `tkinter`, incluye:
-  - Diseño moderno y responsivo.
-  - Actualización en tiempo real sin bloqueo (Event Loop).
-  - Panel de Login con autenticación segura (Hash + Salt).
-- **Lógica de Negocio Incremental:**
-  - Tarifas dinámicas: "Parado" vs "En Movimiento".
-  - Cálculo preciso de costes y tiempos.
-- **Persistencia de Datos:**
-  - `users.json`: Base de datos de usuarios encriptada.
-  - `config.json`: Configuración persistente de tarifas.
-  - `history.txt`: Registro de auditoría inmutable de carreras.
-- **Logging Profesional:** Trazabilidad completa de acciones de usuario y errores del sistema.
+**Taxímetro Expert** es una solución digital completa que simula y gestiona el funcionamiento de un taxímetro real, pero con capacidades en la nube. Permite a los conductores calcular el coste de un trayecto basándose en tarifas por tiempo (parado vs movimiento), registrando cada viaje en una base de datos segura.
 
-## 📂 Estructura del Proyecto
+### 🌟 Funcionalidades Principales
+*   **Cálculo en Tiempo Real:** Algoritmo preciso que diferencia tarifas cuando el coche está en marcha o detenido.
+*   **Arquitectura Dockerizada:** Backend y Frontend corren en contenedores aislados.
+*   **Login Seguro:** Autenticación mediante **Google & Firebase Auth**.
+*   **Persistencia en la Nube:** Historial de viajes y configuración de tarifas guardados en **Google Firestore**.
+*   **Dashboard Interactivo:** Visualización de ganancias, KPIs y tickets detallados.
+*   **Hot-Reload:** Entorno de desarrollo preparado para reflejar cambios de código al instante.
 
-```text
-ptaximetro/
-├── main.py                 # Punto de entrada (Orquestador & DI)
-├── config.json             # Configuración (Autogenerado)
-├── users.json              # Usuarios (Autogenerado)
-├── history.txt             # Historial de carreras
-├── taximetro.log           # Logs técnicos
-└── src/
-    ├── modelo.py           # Lógica de Negocio (Core)
-    ├── gui.py              # Interfaz Gráfica (Vista)
-    ├── autenticacion.py    # Gestión de Seguridad
-    ├── configuracion.py    # Gestión de Configuración
-    ├── gestor_historial.py # Gestión de Logs de Negocio
-    ├── estilos.py          # Definición de Tema/UI
-    └── constantes.py       # Constantes Globales
+---
+
+## 🚀 Instalación y Despliegue (Docker)
+
+Sigue estos pasos para levantar el proyecto en tu máquina local.
+
+### Prerrequisitos
+*   Tener instalado **Docker Desktop** y **Git**.
+*   Tener las credenciales de tu proyecto de Firebase (`firebase_credentials.json`).
+
+### 1. Clonar el Repositorio
+```bash
+git clone https://github.com/Bootcamp-IA-P6/Proyecto1_Joaquin_Lazaro/ptaximetro-f5.git
+cd Proyecto1_Joaquin_Lazaro
 ```
 
-## 🚀 Instalación y Uso
+### 2. Configurar Secretos (¡Importante!)
+Por seguridad, las claves no se suben al repositorio. Debes colocarlas manualmente:
 
-1. **Requisitos:** Python 3.x instalado. No requiere librerías externas (solo librería estándar).
+1.  Crea un archivo `.env` dentro de la carpeta `/backend` con el siguiente contenido:
+    ```ini
+    FIREBASE_CRED_PATH=firebase_credentials.json
+    FIREBASE_DB_NAME=(default)
+    ```
+2.  Coloca tu archivo `firebase_credentials.json` (descargado de Firebase Console) dentro de la carpeta `/backend`.
 
-2. **Clonar el repositorio:**
-   ```bash
-   git clone https://github.com/Bootcamp-IA-P6/Proyecto1_Joaquin_Lazaro.git
-   cd Proyecto1_Joaquin_Lazaro
-   ```
+### 3. Arrancar el Sistema
+Ejecuta el siguiente comando en la raíz del proyecto:
 
-3. **Ejecutar la aplicación:**
-   *Es importante ejecutar desde la raíz del proyecto:*
-   ```bash
-   python main.py
-   ```
+```bash
+docker-compose up --build
+```
 
-4. **Credenciales por defecto:**
-   Al iniciar, si no existe base de datos, puedes editar `users.json` o usar el usuario semilla si se configuró.
+Esperar hasta ver el mensaje `✅ Sistema iniciado` en la consola.
 
-## ⚙️ Configuración
+---
 
-Las tarifas se pueden modificar desde la propia interfaz gráfica (botón ⚙️ en el Dashboard) o editando manualmente el archivo `config.json` (respetando el formato JSON).
+## 🕹️ Guía de Uso
 
-> **Nota:** La configuración está bloqueada mientras haya una carrera en curso por seguridad.
+Una vez arrancado Docker, el sistema expone dos puertos:
 
-## 👨‍💻 Autor
+*   **Frontend (Web):** [http://localhost:8080](http://localhost:8080) 👈 **Entra aquí**
+*   **Backend (API):** [http://localhost:8000/docs](http://localhost:8000/docs) (Documentación automática)
 
-Joaquin Alonso Lazaro Marquez
+### Flujo de Trabajo
+
+1.  **Iniciar Sesión:** Entra a la web y pulsa "Iniciar sesión con Google". Si es la primera vez, se creará tu perfil.
+2.  **Configurar Tarifas:**
+    *   Ve al menú lateral -> **Configuración**.
+    *   Define el precio por segundo en parado (ej. 0.05€) y en movimiento (ej. 0.10€).
+3.  **Iniciar Carrera:**
+    *   Pulsa **INICIAR VIAJE**. El estado cambiará a "LIBRE" -> "PARADO".
+    *   El taxímetro empieza a contar usando la tarifa de "Espera".
+4.  **Alternar Marcha:**
+    *   Pulsa **MARCHA** cuando el coche se mueva. El estado pasa a "MOVIMIENTO" (tarifa más cara).
+    *   Pulsa **DETENERSE** en semáforos (tarifa más barata).
+5.  **Finalizar:**
+    *   Pulsa **FINALIZAR**. Se generará un **Ticket Digital** con el desglose exacto.
+    *   El viaje se guarda automáticamente en el **Historial**.
+
+---
+
+## 🏗️ Arquitectura del Sistema
+
+El proyecto sigue una arquitectura de microservicios orquestada con Docker Compose:
+
+```mermaid
+graph TD
+    User[Usuario (Navegador)] -->|Puerto 8080| Frontend[Nginx (Frontend HTML/JS)]
+    Frontend -->|API Fetch| Backend[FastAPI (Backend Python)]
+    Backend -->|Auth| Firebase[Firebase Auth]
+    Backend -->|Data| Firestore[Google Cloud Firestore]
+    
+    subgraph Docker Host
+    Frontend
+    Backend
+    end
+```
+
+*   **Frontend:** Servidor Nginx ligero (`alpine`). Sirve archivos estáticos y gestiona la lógica visual con JavaScript Vanilla y Bootstrap.
+*   **Backend:** Python 3.14 con FastAPI. Gestiona la lógica de negocio (`core.py`), autenticación (`auth.py`) y conexión a base de datos.
+*   **Volúmenes:** Utilizamos volúmenes de Docker para inyectar las credenciales de forma segura sin quemarlas en la imagen.
+
+---
+
+## 🛠️ Tecnologías
+
+*   **Lenguaje:** Python 3.14 & JavaScript (ES6)
+*   **Frameworks:** FastAPI, Bootstrap 5.3
+*   **Base de Datos:** Google Firestore (NoSQL)
+*   **Contenedores:** Docker & Docker Compose
+*   **Servidor Web:** Uvicorn (App) & Nginx (Web)
