@@ -3,7 +3,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.logs import configurar_logging
 from src.routes import router as taxi_router
-from src.config import get_firestore_db
 from src.core import get_taxi_core
 from src.services import obtener_configuracion
 
